@@ -1,0 +1,34 @@
+{
+  "name": "req-json",
+  "version": "0.0.1",
+  "description": "Promise based simple HTTP/HTTPS client to request JSON or string.",
+  "keywords": [
+    "promise",
+    "http",
+    "https",
+    "ajax",
+    "xhr",
+    "xmlhttprequest",
+    "json"
+  ],
+  "scripts": {
+    "start": "npm run dev",
+    "dev": "gulp dev",
+    "build": "gulp build",
+    "pub": "npm run build && cd dist && npm publish"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Cweili/req-json.git"
+  },
+  "author": "Cweili",
+  "license": "MIT",
+  "homepage": "https://github.com/Cweili/req-json",
+  "bugs": {
+    "url": "https://github.com/Cweili/req-json/issues"
+  },
+  "main": "req-json.js",
+  "dependencies": {
+    "lodash-es": "^4.17.4"
+  }
+}
