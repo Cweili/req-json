@@ -1,11 +1,13 @@
 {
   "name": "req-json",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Promise based simple HTTP/HTTPS client to request JSON or string.",
   "keywords": [
     "promise",
     "http",
     "https",
+    "request",
+    "response",
     "ajax",
     "xhr",
     "xmlhttprequest",
@@ -29,6 +31,6 @@
   },
   "main": "req-json.js",
   "dependencies": {
-    "lodash-es": "^4.17.4"
+    "lodash-es": "*"
   }
 }

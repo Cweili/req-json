@@ -37,9 +37,7 @@ async updateItem(item) {
 }
 ```
 
-## Advanced Usage
-
-### Methods
+## Methods
 
 Supports `GET` `POST` `PUT` `DELETE` methods.
 
@@ -61,7 +59,7 @@ async request() {
 }
 ```
 
-### Options
+## Options
 
 Customized request headers.
 
@@ -85,14 +83,14 @@ async request() {
 }
 ```
 
-### Middlewares
+## Middlewares
 
 Supports two diffrent kinds of functions as middleware:
 
 * async function
 * common function
 
-#### Async function (node >= v7.6.0)
+### Async function (node >= v7.6.0)
 
 ```js
 import ReqJSON from 'req-json';
@@ -107,7 +105,7 @@ reqJSON.use(async(context, next) => {
 });
 ```
 
-#### Common function
+### Common function
 
 ```js
 import ReqJSON from 'req-json';
@@ -124,7 +122,7 @@ reqJSON.use((context, next) => {
 });
 ```
 
-#### context
+### Context
 
 Context contains these attributes:
 
