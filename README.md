@@ -51,8 +51,8 @@ async request() {
   try {
     await resource.get({ id: 1 });
     await resource.post({ id: 1 });
-    await resource.get({ id: 1 });
-    await resource.get({ id: 1 });
+    await resource.put({ id: 1 });
+    await resource.delete({ id: 1 });
   } catch (err) {
     console.error(err);
   }
