@@ -1,6 +1,6 @@
 {
   "name": "req-json",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Promise based simple HTTP/HTTPS client to request JSON or string.",
   "keywords": [
     "promise",
@@ -23,8 +23,15 @@
   "bugs": {
     "url": "https://github.com/Cweili/req-json/issues"
   },
-  "main": "req-json.js",
+  "main": "dist/req-json.js",
+  "scripts": {
+    "dist": "babel *.js -d dist"
+  },
   "dependencies": {
     "lodash-es": "*"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-preset-env": "^1.6.0"
   }
 }
