@@ -1,9 +1,14 @@
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+import _isFunction from 'lodash-es/isFunction';
+import _isObject from 'lodash-es/isObject';
+import _omit from 'lodash-es/omit';
+import _keys from 'lodash-es/keys';
+import _map from 'lodash-es/map';
+import _each from 'lodash-es/each';
+import _clone from 'lodash-es/clone'; /**
+                                       * Request JSON
+                                       */
 
-/**
- * Request JSON
- */
-import { clone, each, map, keys, omit, isObject, isFunction } from 'lodash-es';
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var methods = ['get', 'post', 'put', 'delete'];
 var encode = encodeURIComponent;
@@ -17,7 +22,7 @@ function parseJson(json) {
 }
 
 function transformQuery(args) {
-  return map(keys(args).sort(), function (key) {
+  return _map(_keys(args).sort(), function (key) {
     return key + '=' + encode(args[key]);
   }).join('&');
 }
@@ -25,14 +30,14 @@ function transformQuery(args) {
 function fillUrl(method, path, data) {
   var pattern = /\/:(\w+)/g;
   var variables = [];
-  var isDataObject = isObject(data);
+  var isDataObject = _isObject(data);
   var result = path.replace(pattern, function ($0, $1) {
     variables.push($1);
     var value = isDataObject ? data[$1] : data;
     return value != null ? '/' + encode(value) : '';
   });
   if (isDataObject && !/POST|PUT/.test(method)) {
-    var query = transformQuery(omit(clone(data), variables));
+    var query = transformQuery(_omit(_clone(data), variables));
     query && (result += '?' + query);
   }
   return result;
@@ -55,7 +60,7 @@ function ajax(context) {
     if (options.headers) {
       options.header = options.headers;
     }
-    each(options.header, function (value, key) {
+    _each(options.header, function (value, key) {
       xhr.setRequestHeader(key, options.header[key]);
     });
     if (data) {
@@ -107,7 +112,7 @@ var ReqJSON = function () {
   };
 
   ReqJSON.prototype.use = function use(fn) {
-    if (!isFunction(fn)) {
+    if (!_isFunction(fn)) {
       throw new TypeError('Middleware must be a function');
     }
     this.middlewares.push(fn);

@@ -1,6 +1,6 @@
 {
   "name": "req-json",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Promise based simple HTTP/HTTPS client to request JSON or string.",
   "keywords": [
     "promise",
@@ -32,6 +32,7 @@
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
+    "babel-plugin-lodash": "^3.2.11",
     "babel-preset-env": "^1.6.0"
   }
 }
