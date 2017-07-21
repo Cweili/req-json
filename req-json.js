@@ -1,8 +1,6 @@
 /**
  * Request JSON
  */
-'use strict';
-
 import {
   clone,
   each,
