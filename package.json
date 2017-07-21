@@ -13,12 +13,6 @@
     "xmlhttprequest",
     "json"
   ],
-  "scripts": {
-    "start": "npm run dev",
-    "dev": "gulp dev",
-    "build": "gulp build",
-    "pub": "npm run build && cd dist && npm publish"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/Cweili/req-json.git"
