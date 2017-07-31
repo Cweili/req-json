@@ -90,7 +90,7 @@ Supports two diffrent kinds of functions as middleware:
 * async function
 * common function
 
-### Async function (node >= v7.6.0)
+### Async function ([Can I use](http://caniuse.com/#feat=async-functions))
 
 ```js
 import ReqJSON from 'req-json';
