@@ -44,7 +44,7 @@ function fillUrl(method, path, data) {
 }
 
 function ajax(context) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     const xhr = new window.XMLHttpRequest();
     const method = context.method;
     const url = context.url;
@@ -53,7 +53,6 @@ function ajax(context) {
     context.xhr = xhr;
     xhr.onreadystatechange = () => {
       if (xhr.readyState == 4) {
-        const callback = xhr.status >= 200 && xhr.status < 400 ? resolve : reject;
         context.status = xhr.status;
         callback(context.response = parseJson(xhr.responseText));
       }
