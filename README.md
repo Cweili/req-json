@@ -131,4 +131,6 @@ Context contains these attributes:
 * `url`
 * `data`
 * `options`
+* `status`
 * `response`
+* `xhr`

@@ -50,9 +50,11 @@ function ajax(context) {
     var url = context.url;
     var options = context.options;
     var data = context.data;
+    context.xhr = xhr;
     xhr.onreadystatechange = function () {
       if (xhr.readyState == 4) {
         var callback = xhr.status >= 200 && xhr.status < 400 ? resolve : reject;
+        context.status = xhr.status;
         callback(context.response = parseJson(xhr.responseText));
       }
     };
