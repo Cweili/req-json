@@ -99,9 +99,12 @@ const reqJSON = new ReqJSON();
 
 reqJSON.use(async(context, next) => {
   const start = Date.now();
-  await next();
+  const response = await next();
   const ms = Date.now() - start;
   console.log(`${context.method} ${context.url} ${ms}ms`);
+  if (ctx.status >= 400) {
+    throw new Error(response);
+  }
 });
 ```
 

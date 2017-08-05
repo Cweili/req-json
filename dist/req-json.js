@@ -54,7 +54,7 @@ function ajax(context) {
     xhr.onreadystatechange = function () {
       if (xhr.readyState == 4) {
         context.status = xhr.status;
-        callback(context.response = parseJson(xhr.responseText));
+        resolve(context.response = parseJson(xhr.responseText));
       }
     };
     xhr.open(method, url, true);
