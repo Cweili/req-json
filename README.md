@@ -1,6 +1,6 @@
 # req-json
 
-Promise based simple HTTP/HTTPS client to request JSON or string.
+Promise based simple HTTP/HTTPS client to request JSON or string, with middleware support.
 
 [![npm](https://nodei.co/npm/req-json.png?downloads=true&stars=true)](https://www.npmjs.com/package/req-json)
 
@@ -49,7 +49,7 @@ const resource = reqJSON.resource('/api/item/:id');
 
 async request() {
   try {
-    await resource.get({ id: 1 });
+    const response = await resource.get({ id: 1 });
     await resource.post({ id: 1 });
     await resource.put({ id: 1 });
     await resource.delete({ id: 1 });
@@ -99,12 +99,9 @@ const reqJSON = new ReqJSON();
 
 reqJSON.use(async(context, next) => {
   const start = Date.now();
-  const response = await next();
+  await next();
   const ms = Date.now() - start;
   console.log(`${context.method} ${context.url} ${ms}ms`);
-  if (ctx.status >= 400) {
-    throw new Error(response);
-  }
 });
 ```
 
@@ -137,3 +134,37 @@ Context contains these attributes:
 * `status`
 * `response`
 * `xhr`
+
+### Reject when status 4xx or 5xx
+
+#### Async function
+
+```js
+import ReqJSON from 'req-json';
+
+const reqJSON = new ReqJSON();
+
+reqJSON.use(async(context, next) => {
+  await next();
+  if (context.status >= 400) {
+    throw new Error(context.response);
+  }
+});
+```
+
+#### Common function
+
+```js
+import ReqJSON from 'req-json';
+
+const reqJSON = new ReqJSON();
+
+reqJSON.use((context, next) => {
+  return next()
+    .then(() => {
+      if (context.status >= 400) {
+        throw new Error(context.response);
+      }
+    });
+});
+```
