@@ -133,6 +133,8 @@ Context contains these attributes:
 * `options`
 * `status`
 * `response`
+* `headers`
+* `header` (alias to `headers`)
 * `xhr`
 
 ### Reject when status 4xx or 5xx
@@ -165,6 +167,46 @@ reqJSON.use((context, next) => {
       if (context.status >= 400) {
         throw new Error(context.response);
       }
+    });
+});
+```
+
+### Set request headers and get response headers
+
+#### Async function
+
+```js
+import ReqJSON from 'req-json';
+
+const reqJSON = new ReqJSON();
+
+reqJSON.use(async(context, next) => {
+  // set request headers
+  context.headers = {
+    'If-None-Match': 'abcdefg'
+  };
+  await next();
+  // get response headers
+  console.log(context.headers.etag);
+});
+```
+
+#### Common function
+
+```js
+import ReqJSON from 'req-json';
+
+const reqJSON = new ReqJSON();
+
+reqJSON.use((context, next) => {
+  // set request headers
+  context.headers = {
+    'If-None-Match': 'abcdefg'
+  };
+  return next()
+    .then(() => {
+      // get response headers
+      console.log(context.headers.etag);
     });
 });
 ```

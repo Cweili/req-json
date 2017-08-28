@@ -1,6 +1,6 @@
 {
   "name": "req-json",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "description": "Promise based simple HTTP/HTTPS client to request JSON or string, with middleware support.",
   "keywords": [
     "promise",

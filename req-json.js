@@ -2,6 +2,7 @@
  * Request JSON
  */
 import {
+  assign,
   clone,
   each,
   map,
@@ -21,7 +22,6 @@ function parseJson(json) {
     return json;
   }
 }
-
 
 function transformQuery(args) {
   return map(keys(args).sort(), key => `${key}=${encode(args[key])}`).join('&');
@@ -43,30 +43,46 @@ function fillUrl(method, path, data) {
   return result;
 }
 
+function parseResponseHeaders(headerStr) {
+  const headers = {};
+  if (!headerStr) {
+    return headers;
+  }
+  const headerPairs = headerStr.split('\u000d\u000a');
+  each(headerPairs, (headerPair) => {
+    const index = headerPair.indexOf('\u003a\u0020');
+    if (index > 0) {
+      const key = headerPair.substring(0, index);
+      const val = headerPair.substring(index + 2);
+      headers[key.toLowerCase()] = val;
+    }
+  });
+  return headers;
+}
+
 function ajax(context) {
   return new Promise((resolve) => {
     const xhr = new window.XMLHttpRequest();
     const method = context.method;
     const url = context.url;
     const options = context.options;
+    const headers = assign({}, options.header, options.headers, context.header, context.headers);
     let data = context.data;
     context.xhr = xhr;
     xhr.onreadystatechange = () => {
       if (xhr.readyState == 4) {
         context.status = xhr.status;
+        context.header = context.headers = parseResponseHeaders(xhr.getAllResponseHeaders());
         resolve(context.response = parseJson(xhr.responseText));
       }
     };
     xhr.open(method, url, true);
-    if (options.headers) {
-      options.header = options.headers;
-    }
-    each(options.header, (value, key) => {
-      xhr.setRequestHeader(key, options.header[key]);
+    each(headers, (value, key) => {
+      xhr.setRequestHeader(key, value);
     });
     if (data) {
       if (/POST|PUT/.test(method)) {
-        if (!options.header || !options.header['Content-Type']) {
+        if (!headers['Content-Type']) {
           xhr.setRequestHeader('Content-Type', 'application/json');
           data = JSON.stringify(data);
         }

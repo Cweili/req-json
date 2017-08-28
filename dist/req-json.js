@@ -4,9 +4,10 @@ import _omit from 'lodash-es/omit';
 import _keys from 'lodash-es/keys';
 import _map from 'lodash-es/map';
 import _each from 'lodash-es/each';
-import _clone from 'lodash-es/clone'; /**
-                                       * Request JSON
-                                       */
+import _clone from 'lodash-es/clone';
+import _assign from 'lodash-es/assign'; /**
+                                         * Request JSON
+                                         */
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -43,30 +44,46 @@ function fillUrl(method, path, data) {
   return result;
 }
 
+function parseResponseHeaders(headerStr) {
+  var headers = {};
+  if (!headerStr) {
+    return headers;
+  }
+  var headerPairs = headerStr.split('\r\n');
+  _each(headerPairs, function (headerPair) {
+    var index = headerPair.indexOf(': ');
+    if (index > 0) {
+      var key = headerPair.substring(0, index);
+      var val = headerPair.substring(index + 2);
+      headers[key.toLowerCase()] = val;
+    }
+  });
+  return headers;
+}
+
 function ajax(context) {
   return new Promise(function (resolve) {
     var xhr = new window.XMLHttpRequest();
     var method = context.method;
     var url = context.url;
     var options = context.options;
+    var header = _assign({}, options.header, options.headers, context.header, context.headers);
     var data = context.data;
     context.xhr = xhr;
     xhr.onreadystatechange = function () {
       if (xhr.readyState == 4) {
         context.status = xhr.status;
+        context.header = context.headers = parseResponseHeaders(xhr.getAllResponseHeaders());
         resolve(context.response = parseJson(xhr.responseText));
       }
     };
     xhr.open(method, url, true);
-    if (options.headers) {
-      options.header = options.headers;
-    }
-    _each(options.header, function (value, key) {
-      xhr.setRequestHeader(key, options.header[key]);
+    _each(header, function (value, key) {
+      xhr.setRequestHeader(key, value);
     });
     if (data) {
       if (/POST|PUT/.test(method)) {
-        if (!options.header || !options.header['Content-Type']) {
+        if (!header['Content-Type']) {
           xhr.setRequestHeader('Content-Type', 'application/json');
           data = JSON.stringify(data);
         }
