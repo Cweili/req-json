@@ -1,18 +1,63 @@
-import _isFunction from 'lodash-es/isFunction';
-import _isObject from 'lodash-es/isObject';
-import _omit from 'lodash-es/omit';
-import _keys from 'lodash-es/keys';
-import _map from 'lodash-es/map';
-import _each from 'lodash-es/each';
-import _clone from 'lodash-es/clone';
-import _assign from 'lodash-es/assign'; /**
-                                         * Request JSON
-                                         */
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+/**
+ * Request JSON
+ */
 var methods = ['get', 'post', 'put', 'delete'];
 var encode = encodeURIComponent;
+
+function isObject(value) {
+  var type = typeof value === 'undefined' ? 'undefined' : _typeof(value);
+  return value != null && (type == 'object' || type == 'function');
+}
+
+function isFunction(value) {
+  if (!isObject(value)) {
+    return false;
+  }
+  // The use of `Object#toString` avoids issues with the `typeof` operator
+  // in Safari 9 which returns 'object' for typed arrays and other constructors.
+  var tag = Object.prototype.toString.call(value);
+  var asyncTag = '[object AsyncFunction]';
+  var funcTag = '[object Function]';
+  var genTag = '[object GeneratorFunction]';
+  var proxyTag = '[object Proxy]';
+  return tag == funcTag || tag == genTag || tag == asyncTag || tag == proxyTag;
+}
+
+function each(collection, handler) {
+  return collection && (Array.isArray(collection) ? collection.forEach(handler) : Object.keys(collection).forEach(function (key) {
+    return handler(collection[key], key);
+  }));
+}
+
+function assign(target) {
+  for (var _len = arguments.length, sources = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    sources[_key - 1] = arguments[_key];
+  }
+
+  each(sources, function (src) {
+    each(src, function (value, key) {
+      target[key] = value;
+    });
+  });
+
+  return target;
+}
+
+function omit(obj, attrs) {
+  var result = {};
+
+  each(obj, function (value, key) {
+    if (attrs.indexOf(key) < 0) {
+      result[key] = value;
+    }
+  });
+
+  return result;
+}
 
 function parseJson(json) {
   try {
@@ -23,7 +68,7 @@ function parseJson(json) {
 }
 
 function transformQuery(args) {
-  return _map(_keys(args).sort(), function (key) {
+  return Object.keys(args).sort().map(function (key) {
     return key + '=' + encode(args[key]);
   }).join('&');
 }
@@ -31,14 +76,14 @@ function transformQuery(args) {
 function fillUrl(method, path, data) {
   var pattern = /\/:(\w+)/g;
   var variables = [];
-  var isDataObject = _isObject(data);
+  var isDataObject = isObject(data);
   var result = path.replace(pattern, function ($0, $1) {
     variables.push($1);
     var value = isDataObject ? data[$1] : data;
     return value != null ? '/' + encode(value) : '';
   });
   if (isDataObject && !/POST|PUT/.test(method)) {
-    var query = transformQuery(_omit(_clone(data), variables));
+    var query = transformQuery(omit(data, variables));
     query && (result += '?' + query);
   }
   return result;
@@ -50,7 +95,7 @@ function parseResponseHeaders(headerStr) {
     return headers;
   }
   var headerPairs = headerStr.split('\r\n');
-  _each(headerPairs, function (headerPair) {
+  each(headerPairs, function (headerPair) {
     var index = headerPair.indexOf(': ');
     if (index > 0) {
       var key = headerPair.substring(0, index);
@@ -67,7 +112,7 @@ function ajax(context) {
     var method = context.method;
     var url = context.url;
     var options = context.options;
-    var header = _assign({}, options.header, options.headers, context.header, context.headers);
+    var headers = assign({}, options.header, options.headers, context.header, context.headers);
     var data = context.data;
     context.xhr = xhr;
     xhr.onreadystatechange = function () {
@@ -78,12 +123,12 @@ function ajax(context) {
       }
     };
     xhr.open(method, url, true);
-    _each(header, function (value, key) {
+    each(headers, function (value, key) {
       xhr.setRequestHeader(key, value);
     });
     if (data) {
       if (/POST|PUT/.test(method)) {
-        if (!header['Content-Type']) {
+        if (!headers['Content-Type']) {
           xhr.setRequestHeader('Content-Type', 'application/json');
           data = JSON.stringify(data);
         }
@@ -108,7 +153,7 @@ var ReqJSON = function () {
     var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
     var fns = {};
-    methods.forEach(function (method) {
+    each(methods, function (method) {
       fns[method] = function (data) {
         method = method.toUpperCase();
         var url = fillUrl(method, path, data);
@@ -130,7 +175,7 @@ var ReqJSON = function () {
   };
 
   ReqJSON.prototype.use = function use(fn) {
-    if (!_isFunction(fn)) {
+    if (!isFunction(fn)) {
       throw new TypeError('Middleware must be a function');
     }
     this.middlewares.push(fn);

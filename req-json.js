@@ -1,19 +1,55 @@
 /**
  * Request JSON
  */
-import {
-  assign,
-  clone,
-  each,
-  map,
-  keys,
-  omit,
-  isObject,
-  isFunction
-} from 'lodash-es';
-
 const methods = ['get', 'post', 'put', 'delete'];
 const encode = encodeURIComponent;
+
+function isObject(value) {
+  const type = typeof value;
+  return value != null && (type == 'object' || type == 'function');
+}
+
+function isFunction(value) {
+  if (!isObject(value)) {
+    return false;
+  }
+  // The use of `Object#toString` avoids issues with the `typeof` operator
+  // in Safari 9 which returns 'object' for typed arrays and other constructors.
+  const tag = Object.prototype.toString.call(value);
+  const asyncTag = '[object AsyncFunction]';
+  const funcTag = '[object Function]';
+  const genTag = '[object GeneratorFunction]';
+  const proxyTag = '[object Proxy]';
+  return tag == funcTag || tag == genTag || tag == asyncTag || tag == proxyTag;
+}
+
+function each(collection, handler) {
+  return collection && (Array.isArray(collection)
+    ? collection.forEach(handler)
+    : Object.keys(collection).forEach(key => handler(collection[key], key)));
+}
+
+function assign(target, ...sources) {
+  each(sources, (src) => {
+    each(src, (value, key) => {
+      target[key] = value;
+    });
+  });
+
+  return target;
+}
+
+function omit(obj, attrs) {
+  const result = {};
+
+  each(obj, (value, key) => {
+    if (attrs.indexOf(key) < 0) {
+      result[key] = value;
+    }
+  });
+
+  return result;
+}
 
 function parseJson(json) {
   try {
@@ -24,7 +60,7 @@ function parseJson(json) {
 }
 
 function transformQuery(args) {
-  return map(keys(args).sort(), key => `${key}=${encode(args[key])}`).join('&');
+  return Object.keys(args).sort().map(key => `${key}=${encode(args[key])}`).join('&');
 }
 
 function fillUrl(method, path, data) {
@@ -37,7 +73,7 @@ function fillUrl(method, path, data) {
     return value != null ? `/${encode(value)}` : '';
   });
   if (isDataObject && !/POST|PUT/.test(method)) {
-    const query = transformQuery(omit(clone(data), variables));
+    const query = transformQuery(omit(data, variables));
     query && (result += `?${query}`);
   }
   return result;
@@ -101,7 +137,7 @@ export default class ReqJSON {
 
   resource(path, options = {}) {
     const fns = {};
-    methods.forEach((method) => {
+    each(methods, (method) => {
       fns[method] = (data) => {
         method = method.toUpperCase();
         const url = fillUrl(method, path, data);
