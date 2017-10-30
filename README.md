@@ -1,8 +1,12 @@
 # req-json
 
-Promise based simple HTTP/HTTPS client to request JSON or string, with middleware support.
+[![npm](npm-version)](npm)
+[![npm](npm-downloads)](npm)
+[![npm](npm-license)](npm)
+[![github](github-issues)](github)
 
-[![npm](https://nodei.co/npm/req-json.png?downloads=true&stars=true)](https://www.npmjs.com/package/req-json)
+
+Promise based simple HTTP/HTTPS client to request JSON or string for RESTful apis, with koa-like middleware support.
 
 ## Install
 
@@ -42,16 +46,20 @@ async updateItem(item) {
 Supports `GET` `POST` `PUT` `DELETE` methods.
 
 ```js
-import ReqJSON from 'req-json';
-
 const reqJSON = new ReqJSON();
 const resource = reqJSON.resource('/api/item/:id');
 
 async request() {
   try {
     const response = await resource.get({ id: 1 });
-    await resource.post({ id: 1 });
-    await resource.put({ id: 1 });
+    await resource.post({
+      id: 1,
+      others: { foo: 'bar' }
+    });
+    await resource.put({
+      id: 1,
+      others: { foo: 'bar' }
+    });
     await resource.delete({ id: 1 });
   } catch (err) {
     console.error(err);
@@ -64,15 +72,10 @@ async request() {
 Customized request headers.
 
 ```js
-import ReqJSON from 'req-json';
-
-const reqJSON = new ReqJSON();
-const resource = reqJSON.resource('/api/item/:id');
-
 async request() {
   const options = {
     headers: {
-      Authencate: 'abc'
+      Authorization: 'abc'
     }
   };
   try {
@@ -93,8 +96,6 @@ Supports two diffrent kinds of functions as middleware:
 ### Async function ([Can I use](http://caniuse.com/#feat=async-functions))
 
 ```js
-import ReqJSON from 'req-json';
-
 const reqJSON = new ReqJSON();
 
 reqJSON.use(async(context, next) => {
@@ -108,8 +109,6 @@ reqJSON.use(async(context, next) => {
 ### Common function
 
 ```js
-import ReqJSON from 'req-json';
-
 const reqJSON = new ReqJSON();
 
 reqJSON.use((context, next) => {
@@ -142,10 +141,6 @@ Context contains these attributes:
 #### Async function
 
 ```js
-import ReqJSON from 'req-json';
-
-const reqJSON = new ReqJSON();
-
 reqJSON.use(async(context, next) => {
   await next();
   if (context.status >= 400) {
@@ -157,10 +152,6 @@ reqJSON.use(async(context, next) => {
 #### Common function
 
 ```js
-import ReqJSON from 'req-json';
-
-const reqJSON = new ReqJSON();
-
 reqJSON.use((context, next) => {
   return next()
     .then(() => {
@@ -176,10 +167,6 @@ reqJSON.use((context, next) => {
 #### Async function
 
 ```js
-import ReqJSON from 'req-json';
-
-const reqJSON = new ReqJSON();
-
 reqJSON.use(async(context, next) => {
   // set request headers
   context.headers = {
@@ -194,10 +181,6 @@ reqJSON.use(async(context, next) => {
 #### Common function
 
 ```js
-import ReqJSON from 'req-json';
-
-const reqJSON = new ReqJSON();
-
 reqJSON.use((context, next) => {
   // set request headers
   context.headers = {
@@ -210,3 +193,11 @@ reqJSON.use((context, next) => {
     });
 });
 ```
+
+[npm]: https://www.npmjs.com/package/req-json
+[npm-version]: https://img.shields.io/npm/v/req-json.svg
+[npm-downloads]: https://img.shields.io/npm/dt/req-json.svg
+[npm-license]: https://img.shields.io/npm/l/req-json.svg
+
+[github]: https://github.com/Cweili/req-json
+[github-issues]: https://img.shields.io/github/issues/Cweili/req-json.svg

@@ -1,7 +1,7 @@
 {
   "name": "req-json",
   "version": "0.3.0",
-  "description": "Promise based simple HTTP/HTTPS client to request JSON or string, with middleware support.",
+  "description": "Promise based simple HTTP/HTTPS client to request JSON or string for RESTful apis, with koa-like middleware support.",
   "keywords": [
     "promise",
     "http",
@@ -12,7 +12,8 @@
     "xhr",
     "xmlhttprequest",
     "middleware",
-    "json"
+    "json",
+    "restful"
   ],
   "repository": {
     "type": "git",
