@@ -107,14 +107,15 @@ function parseResponseHeaders(headerStr) {
 }
 
 function ajax(context) {
-  return new Promise(function (resolve) {
-    var xhr = new window.XMLHttpRequest();
+  return new Promise(function (resolve, reject) {
+    var xhr = new XMLHttpRequest();
     var method = context.method;
     var url = context.url;
     var options = context.options;
     var headers = assign({}, options.header, options.headers, context.header, context.headers);
     var data = context.data;
     context.xhr = xhr;
+    xhr.onerror = reject;
     xhr.onreadystatechange = function () {
       if (xhr.readyState == 4) {
         context.status = xhr.status;
