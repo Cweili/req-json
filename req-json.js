@@ -97,14 +97,15 @@ function parseResponseHeaders(headerStr) {
 }
 
 function ajax(context) {
-  return new Promise((resolve) => {
-    const xhr = new window.XMLHttpRequest();
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
     const method = context.method;
     const url = context.url;
     const options = context.options;
     const headers = assign({}, options.header, options.headers, context.header, context.headers);
     let data = context.data;
     context.xhr = xhr;
+    xhr.onerror = reject;
     xhr.onreadystatechange = () => {
       if (xhr.readyState == 4) {
         context.status = xhr.status;
