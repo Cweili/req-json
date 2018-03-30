@@ -1,6 +1,6 @@
 {
   "name": "req-json",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Promise based simple HTTP/HTTPS client to request JSON or string for RESTful apis, with koa-like middleware support.",
   "keywords": [
     "promise",
