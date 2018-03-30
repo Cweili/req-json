@@ -25,12 +25,18 @@
   "bugs": {
     "url": "https://github.com/Cweili/req-json/issues"
   },
-  "main": "dist/req-json.js",
+  "main": "dist/req-json.common.js",
+  "module": "dist/req-json.esm.js",
+  "browser": "dist/req-json.js",
   "scripts": {
-    "build": "babel *.js -d dist"
+    "build": "rollup -c"
   },
   "devDependencies": {
-    "babel-cli": "^6.24.1",
-    "babel-preset-env": "^1.6.0"
+    "babel-core": "^6.26.0",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-preset-env": "^1.6.0",
+    "rollup": "^0.57.1",
+    "rollup-plugin-babel": "^3.0.3",
+    "rollup-plugin-node-resolve": "^3.3.0"
   }
 }

@@ -1,5 +1,5 @@
-/**
- * Request JSON
+/*!
+ * req-json by @Cweili - https://github.com/Cweili/req-json
  */
 const methods = ['get', 'post', 'put', 'delete'];
 const encode = encodeURIComponent;
