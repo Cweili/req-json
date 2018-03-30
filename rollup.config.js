@@ -16,7 +16,7 @@ export default [
 			},
 			{
 				name: 'ReqJSON',
-				file: pkg.browser,
+				file: pkg.unpkg,
 				format: 'umd'
 			}
 		],
