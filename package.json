@@ -28,6 +28,8 @@
   "main": "dist/req-json.common.js",
   "module": "dist/req-json.esm.js",
   "browser": "dist/req-json.js",
+  "unpkg": "dist/req-json.js",
+  "jsdelivr": "dist/req-json.js",
   "scripts": {
     "build": "rollup -c"
   },

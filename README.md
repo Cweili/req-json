@@ -8,17 +8,37 @@
 
 Promise based simple HTTP/HTTPS client to request JSON or string for RESTful apis, with koa-like middleware support.
 
-## Install
+## Installation
+
+### NPM
 
 ```
 npm install req-json --save
 ```
 
-## Basic Usage
+ES modules for Webpack 2+ or Rollup
 
 ```js
 import ReqJSON from 'req-json';
+```
 
+CommonJS for Webpack 1 or Browserify
+
+```js
+const ReqJSON = require('req-json');
+```
+
+### CDN
+
+Direct `<script>` include
+
+```html
+<script src="https://unpkg.com/req-json@^1/dist/req-json.js"></script>
+```
+
+## Basic Usage
+
+```js
 const reqJSON = new ReqJSON();
 const resource = reqJSON.resource('/api/item/:id');
 
