@@ -25,22 +25,22 @@
   "bugs": {
     "url": "https://github.com/Cweili/req-json/issues"
   },
-  "main": "dist/req-json.common.js",
+  "main": "dist/req-json.cjs.js",
   "module": "dist/req-json.esm.js",
   "unpkg": "dist/req-json.js",
   "jsdelivr": "dist/req-json.js",
   "scripts": {
     "build": "rollup -c",
-    "test": "jest tests"
+    "test": "jest tests --collectCoverage"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-preset-env": "^1.6.0",
     "jest": "^22.4.3",
-    "nock": "^9.2.3",
     "rollup": "^0.57.1",
     "rollup-plugin-babel": "^3.0.3",
-    "rollup-plugin-node-resolve": "^3.3.0"
+    "rollup-plugin-node-resolve": "^3.3.0",
+    "xhr-mock": "^2.3.1"
   }
 }
