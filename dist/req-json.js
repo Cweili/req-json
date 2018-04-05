@@ -156,14 +156,12 @@
       this.middlewares = [];
     }
 
-    ReqJSON.prototype.resource = function resource(path) {
+    ReqJSON.prototype.resource = function resource(path, options) {
       var _this = this;
-
-      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
       var fns = {};
       each(methods, function (method) {
-        fns[method] = function (data) {
+        fns[method] = function (data, newOptions) {
           method = method.toUpperCase();
           var url = fillUrl(method, path, data);
           var context = {
@@ -171,7 +169,7 @@
             method: method,
             url: url,
             data: data,
-            options: options
+            options: assign({}, options, newOptions)
           };
           return _this._dispatch(context, function () {
             return ajax(context);
@@ -203,9 +201,6 @@
         var fn = middlewares[i];
         if (i == middlewares.length) {
           fn = next;
-        }
-        if (!fn) {
-          return Promise.resolve();
         }
         try {
           return Promise.resolve(fn(context, function () {
