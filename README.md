@@ -1,9 +1,12 @@
 # req-json
 
 [![npm][npm-version]][npm]
+[![npm][npm-size]][npm]
 [![npm][npm-downloads]][npm]
 [![npm][npm-license]][npm]
 [![github][github-issues]][github]
+[![travis][travis-build]][travis]
+[![codecov][codecov-svg]][codecov]
 
 
 Promise based simple HTTP/HTTPS client to request JSON or string for RESTful apis, with koa-like middleware support.
@@ -235,8 +238,15 @@ reqJSON.use((context, next) => {
 
 [npm]: https://www.npmjs.com/package/req-json
 [npm-version]: https://img.shields.io/npm/v/req-json.svg
+[npm-size]: https://img.shields.io/bundlephobia/minzip/req-json.svg
 [npm-downloads]: https://img.shields.io/npm/dt/req-json.svg
 [npm-license]: https://img.shields.io/npm/l/req-json.svg
 
 [github]: https://github.com/Cweili/req-json
 [github-issues]: https://img.shields.io/github/issues/Cweili/req-json.svg
+
+[travis]: https://travis-ci.org/Cweili/req-json
+[travis-build]: https://img.shields.io/travis/Cweili/req-json.svg
+
+[codecov]: https://codecov.io/gh/Cweili/req-json
+[codecov-svg]: https://img.shields.io/codecov/c/github/Cweili/req-json.svg
