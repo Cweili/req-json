@@ -31,7 +31,7 @@
   "jsdelivr": "dist/req-json.js",
   "scripts": {
     "build": "rollup -c",
-    "test": "jest tests --collectCoverage --coverageDirectory ./coverage/"
+    "test": "jest test --collectCoverage --coverageDirectory ./coverage/"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
