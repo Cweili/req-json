@@ -102,7 +102,13 @@ function ajax(context) {
     const method = context.method;
     const url = context.url;
     const options = context.options;
-    const headers = assign({}, options.header, options.headers, context.header, context.headers);
+    const headers = assign(
+      {},
+      options.header,
+      options.headers,
+      context.header,
+      context.headers
+    );
     let data = context.data;
     context.xhr = xhr;
     xhr.onerror = reject;
@@ -136,10 +142,10 @@ export default class ReqJSON {
     this.middlewares = [];
   }
 
-  resource(path, options = {}) {
+  resource(path, options) {
     const fns = {};
     each(methods, (method) => {
-      fns[method] = (data) => {
+      fns[method] = (data, newOptions) => {
         method = method.toUpperCase();
         const url = fillUrl(method, path, data);
         const context = {
@@ -147,7 +153,7 @@ export default class ReqJSON {
           method,
           url,
           data,
-          options
+          options: assign({}, options, newOptions)
         };
         return this._dispatch(context, () => ajax(context))
           .then(() => context.response);
@@ -176,9 +182,6 @@ export default class ReqJSON {
       let fn = middlewares[i];
       if (i == middlewares.length) {
         fn = next;
-      }
-      if (!fn) {
-        return Promise.resolve();
       }
       try {
         return Promise.resolve(fn(context, () => dispatch(i + 1)));

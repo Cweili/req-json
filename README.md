@@ -89,7 +89,7 @@ async request() {
 
 ## Options
 
-Customized request headers.
+Customized request headers for single request.
 
 ```js
 async request() {
@@ -100,6 +100,25 @@ async request() {
   };
   try {
     await resource.get({ id: 1 }, options);
+  } catch (err) {
+    console.error(err);
+  }
+}
+```
+
+Or for resource defination.
+
+```js
+const options = {
+  headers: {
+    Authorization: 'abc'
+  }
+};
+const resource = reqJSON.resource('/api/item/:id', options);
+
+async request() {
+  try {
+    await resource.get({ id: 1 });
   } catch (err) {
     console.error(err);
   }
@@ -150,9 +169,9 @@ Context contains these attributes:
 * `url`
 * `data`
 * `options`
-* `status`
-* `response`
-* `headers`
+* `status` (response only)
+* `response` (response only)
+* `headers` (response only)
 * `header` (alias to `headers`)
 * `xhr`
 
