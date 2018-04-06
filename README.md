@@ -4,12 +4,14 @@
 [![npm][npm-size]][npm]
 [![npm][npm-downloads]][npm]
 [![npm][npm-license]][npm]
+
+
 [![github][github-issues]][github]
 [![travis][travis-build]][travis]
 [![codecov][codecov-svg]][codecov]
 
 
-Promise based simple HTTP/HTTPS client to request JSON or string for RESTful apis, with koa-like middleware support.
+Promise based simple HTTP/HTTPS client for browser to request JSON or string for RESTful apis, with koa-like middleware support.
 
 ## Installation
 
@@ -174,7 +176,7 @@ Context contains these attributes:
 * `options`
 * `status` (response only)
 * `response` (response only)
-* `headers` (response only)
+* `headers` (setting for request, getting for response)
 * `header` (alias to `headers`)
 * `xhr`
 
