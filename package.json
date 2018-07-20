@@ -29,6 +29,7 @@
   "module": "dist/req-json.esm.js",
   "unpkg": "dist/req-json.js",
   "jsdelivr": "dist/req-json.js",
+  "sideEffects": false,
   "scripts": {
     "build": "rollup -c",
     "test": "jest test --collectCoverage --coverageDirectory ./coverage/"
