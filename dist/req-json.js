@@ -4,11 +4,7 @@
   (global.ReqJSON = factory());
 }(this, (function () { 'use strict';
 
-  var classCallCheck = function (instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  };
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
   /*!
    * req-json by @Cweili - https://github.com/Cweili/req-json
@@ -151,7 +147,7 @@
 
   var ReqJSON = function () {
     function ReqJSON() {
-      classCallCheck(this, ReqJSON);
+      _classCallCheck(this, ReqJSON);
 
       this.middlewares = [];
     }
