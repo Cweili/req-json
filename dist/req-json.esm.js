@@ -1,14 +1,11 @@
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 /*!
  * req-json by @Cweili - https://github.com/Cweili/req-json
  */
-var methods = ['get', 'post', 'put', 'delete'];
 var encode = encodeURIComponent;
 
 function isObject(value) {
   var type = typeof value;
-  return value != null && (type == 'object' || type == 'function');
+  return value != null && (type === 'object' || type === 'function');
 }
 
 function isFunction(value) {
@@ -22,7 +19,7 @@ function isFunction(value) {
   var funcTag = '[object Function]';
   var genTag = '[object GeneratorFunction]';
   var proxyTag = '[object Proxy]';
-  return tag == funcTag || tag == genTag || tag == asyncTag || tag == proxyTag;
+  return tag === funcTag || tag === genTag || tag === asyncTag || tag === proxyTag;
 }
 
 function each(collection, handler) {
@@ -82,60 +79,23 @@ function fillUrl(method, path, data) {
   });
   if (isDataObject && !/POST|PUT/.test(method)) {
     var query = transformQuery(omit(data, variables));
-    query && (result += '?' + query);
+    if (query) {
+      result += '?' + query;
+    }
   }
   return result;
 }
 
-function parseResponseHeaders(headerStr) {
-  var headers = {};
-  if (!headerStr) {
-    return headers;
-  }
-  var headerPairs = headerStr.split('\r\n');
-  each(headerPairs, function (headerPair) {
-    var index = headerPair.indexOf(': ');
-    if (index > 0) {
-      var key = headerPair.substring(0, index);
-      var val = headerPair.substring(index + 2);
-      headers[key.toLowerCase()] = val;
-    }
-  });
-  return headers;
-}
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function ajax(context) {
+var methods = ['get', 'post', 'put', 'delete'];
+
+function req(context, adapter) {
   return new Promise(function (resolve, reject) {
-    var xhr = new XMLHttpRequest();
-    var method = context.method;
-    var url = context.url;
     var options = context.options;
-    var headers = assign({}, options.header, options.headers, context.header, context.headers);
-    var data = context.data;
-    context.xhr = xhr;
-    xhr.onerror = reject;
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState == 4) {
-        context.status = xhr.status;
-        context.header = context.headers = parseResponseHeaders(xhr.getAllResponseHeaders());
-        resolve(context.response = parseJson(xhr.responseText));
-      }
-    };
-    xhr.open(method, url, true);
-    each(headers, function (value, key) {
-      xhr.setRequestHeader(key, value);
-    });
-    if (data) {
-      if (/POST|PUT/.test(method)) {
-        if (!headers['Content-Type']) {
-          xhr.setRequestHeader('Content-Type', 'application/json');
-          data = JSON.stringify(data);
-        }
-      } else {
-        data = undefined;
-      }
-    }
-    xhr.send(data);
+
+    context.header = context.headers = assign({}, options.header, options.headers, context.header, context.headers);
+    adapter(context, resolve, reject);
   });
 }
 
@@ -145,6 +105,10 @@ var ReqJSON = function () {
 
     this.middlewares = [];
   }
+
+  ReqJSON.setAdapter = function setAdapter(adapter) {
+    ReqJSON.adapter = adapter;
+  };
 
   ReqJSON.prototype.resource = function resource(path, options) {
     var _this = this;
@@ -162,7 +126,7 @@ var ReqJSON = function () {
           options: assign({}, options, newOptions)
         };
         return _this._dispatch(context, function () {
-          return ajax(context);
+          return req(context, ReqJSON.adapter);
         }).then(function () {
           return context.response;
         });
@@ -181,6 +145,7 @@ var ReqJSON = function () {
   ReqJSON.prototype._dispatch = function _dispatch(context, next) {
     // last called middleware #
     var middlewares = this.middlewares;
+
     var index = -1;
 
     function dispatch(i) {
@@ -189,7 +154,7 @@ var ReqJSON = function () {
       }
       index = i;
       var fn = middlewares[i];
-      if (i == middlewares.length) {
+      if (i === middlewares.length) {
         fn = next;
       }
       try {
@@ -206,5 +171,57 @@ var ReqJSON = function () {
 
   return ReqJSON;
 }();
+
+function parseResponseHeaders(headerStr) {
+  var headers = {};
+  if (!headerStr) {
+    return headers;
+  }
+  var headerPairs = headerStr.split('\r\n');
+  each(headerPairs, function (headerPair) {
+    var index = headerPair.indexOf(': ');
+    if (index > 0) {
+      var key = headerPair.substring(0, index);
+      var val = headerPair.substring(index + 2);
+      headers[key.toLowerCase()] = val;
+    }
+  });
+  return headers;
+}
+
+function http (context, resolve, reject) {
+  var xhr = new XMLHttpRequest();
+  var method = context.method,
+      url = context.url,
+      headers = context.headers;
+
+  var data = context.data;
+  context.xhr = xhr;
+  xhr.onerror = reject;
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4) {
+      context.status = xhr.status;
+      context.header = context.headers = parseResponseHeaders(xhr.getAllResponseHeaders());
+      resolve(context.response = parseJson(xhr.responseText));
+    }
+  };
+  xhr.open(method, url, true);
+  each(headers, function (value, key) {
+    xhr.setRequestHeader(key, value);
+  });
+  if (data) {
+    if (/POST|PUT/.test(method)) {
+      if (!headers['Content-Type']) {
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        data = JSON.stringify(data);
+      }
+    } else {
+      data = undefined;
+    }
+  }
+  xhr.send(data);
+}
+
+ReqJSON.setAdapter(http);
 
 export default ReqJSON;

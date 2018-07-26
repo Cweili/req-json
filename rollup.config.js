@@ -2,27 +2,47 @@ import resolve from 'rollup-plugin-node-resolve';
 import babel from 'rollup-plugin-babel';
 import pkg from './package.json';
 
+const banner = `/*!
+ * req-json by @Cweili - https://github.com/Cweili/req-json
+ */`;
+
+const plugins = [
+  resolve(),
+  babel(),
+];
+
 export default [
-	{
-		input: 'req-json.js',
-		output: [
-			{
-				file: pkg.main,
-				format: 'cjs'
-			},
-			{
-				file: pkg.module,
-				format: 'es'
-			},
-			{
-				name: 'ReqJSON',
-				file: pkg.unpkg,
-				format: 'umd'
-			}
-		],
-		plugins: [
-			resolve(),
-			babel()
-		]
-	}
+  {
+    input: 'index.js',
+    output: [
+      {
+        file: pkg.main,
+        format: 'cjs',
+        banner,
+      },
+      {
+        file: pkg.module,
+        format: 'es',
+        banner,
+      },
+      {
+        name: 'ReqJSON',
+        file: pkg.unpkg,
+        format: 'umd',
+        banner,
+      },
+    ],
+    plugins,
+  },
+  {
+    input: 'wx.js',
+    output: [
+      {
+        name: 'ReqJSON',
+        file: 'dist/req-json.wx.js',
+        format: 'umd',
+        banner,
+      },
+    ],
+  },
 ];

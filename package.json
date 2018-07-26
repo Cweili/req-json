@@ -31,12 +31,18 @@
   "jsdelivr": "dist/req-json.js",
   "sideEffects": false,
   "scripts": {
+    "prebuild": "eslint --fix *.js lib/*.js",
     "build": "rollup -c",
     "test": "jest test --collectCoverage --coverageDirectory ./coverage/"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
+    "babel-eslint": "^7.2.3",
     "babel-preset-env": "^1.6.0",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^13.0.0",
+    "eslint-import-resolver-node": "^0.3.2",
+    "eslint-plugin-import": "^2.13.0",
     "jest": "^22.4.3",
     "rollup": "^0.57.1",
     "rollup-plugin-babel": "^3.0.3",
