@@ -7,10 +7,10 @@
   (global.ReqJSON = factory());
 }(this, (function () { 'use strict';
 
-  const encode = encodeURIComponent;
+  var encode = encodeURIComponent;
 
   function isObject(value) {
-    const type = typeof value;
+    var type = typeof value;
     return value != null && (type === 'object' || type === 'function');
   }
 
@@ -20,23 +20,27 @@
     }
     // The use of `Object#toString` avoids issues with the `typeof` operator
     // in Safari 9 which returns 'object' for typed arrays and other constructors.
-    const tag = Object.prototype.toString.call(value);
-    const asyncTag = '[object AsyncFunction]';
-    const funcTag = '[object Function]';
-    const genTag = '[object GeneratorFunction]';
-    const proxyTag = '[object Proxy]';
+    var tag = Object.prototype.toString.call(value);
+    var asyncTag = '[object AsyncFunction]';
+    var funcTag = '[object Function]';
+    var genTag = '[object GeneratorFunction]';
+    var proxyTag = '[object Proxy]';
     return tag === funcTag || tag === genTag || tag === asyncTag || tag === proxyTag;
   }
 
   function each(collection, handler) {
-    return collection && (Array.isArray(collection)
-      ? collection.forEach(handler)
-      : Object.keys(collection).forEach(key => handler(collection[key], key)));
+    return collection && (Array.isArray(collection) ? collection.forEach(handler) : Object.keys(collection).forEach(function (key) {
+      return handler(collection[key], key);
+    }));
   }
 
-  function assign(target, ...sources) {
-    each(sources, (src) => {
-      each(src, (value, key) => {
+  function assign(target) {
+    for (var _len = arguments.length, sources = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      sources[_key - 1] = arguments[_key];
+    }
+
+    each(sources, function (src) {
+      each(src, function (value, key) {
         target[key] = value;
       });
     });
@@ -45,9 +49,9 @@
   }
 
   function omit(obj, attrs) {
-    const result = {};
+    var result = {};
 
-    each(obj, (value, key) => {
+    each(obj, function (value, key) {
       if (attrs.indexOf(key) < 0) {
         result[key] = value;
       }
@@ -57,117 +61,128 @@
   }
 
   function transformQuery(args) {
-    return Object.keys(args).sort().map(key => `${key}=${encode(args[key])}`).join('&');
+    return Object.keys(args).sort().map(function (key) {
+      return key + '=' + encode(args[key]);
+    }).join('&');
   }
 
   function fillUrl(method, path, data) {
-    const pattern = /\/:(\w+)/g;
-    const variables = [];
-    const isDataObject = isObject(data);
-    let result = path.replace(pattern, ($0, $1) => {
+    var pattern = /\/:(\w+)/g;
+    var variables = [];
+    var isDataObject = isObject(data);
+    var result = path.replace(pattern, function ($0, $1) {
       variables.push($1);
-      const value = isDataObject ? data[$1] : data;
-      return value != null ? `/${encode(value)}` : '';
+      var value = isDataObject ? data[$1] : data;
+      return value != null ? '/' + encode(value) : '';
     });
     if (isDataObject && !/POST|PUT/.test(method)) {
-      const query = transformQuery(omit(data, variables));
+      var query = transformQuery(omit(data, variables));
       if (query) {
-        result += `?${query}`;
+        result += '?' + query;
       }
     }
     return result;
   }
 
-  const methods = ['get', 'post', 'put', 'delete'];
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+  var methods = ['get', 'post', 'put', 'delete'];
 
   function req(context, adapter) {
-    return new Promise((resolve, reject) => {
-      const { options } = context;
-      context.header = context.headers = assign(
-        {},
-        options.header,
-        options.headers,
-        context.header,
-        context.headers,
-      );
+    return new Promise(function (resolve, reject) {
+      var options = context.options;
+
+      context.header = context.headers = assign({}, options.header, options.headers, context.header, context.headers);
       adapter(context, resolve, reject);
     });
   }
 
-  class ReqJSON {
-    constructor() {
+  var ReqJSON = function () {
+    function ReqJSON() {
+      _classCallCheck(this, ReqJSON);
+
       this.middlewares = [];
     }
 
-    static setAdapter(adapter) {
+    ReqJSON.setAdapter = function setAdapter(adapter) {
       ReqJSON.adapter = adapter;
-    }
+    };
 
-    resource(path, options) {
-      const fns = {};
-      each(methods, (method) => {
-        fns[method] = (data, newOptions) => {
+    ReqJSON.prototype.resource = function resource(path, options) {
+      var _this = this;
+
+      var fns = {};
+      each(methods, function (method) {
+        fns[method] = function (data, newOptions) {
           method = method.toUpperCase();
-          const url = fillUrl(method, path, data);
-          const context = {
-            path,
-            method,
-            url,
-            data,
-            options: assign({}, options, newOptions),
+          var url = fillUrl(method, path, data);
+          var context = {
+            path: path,
+            method: method,
+            url: url,
+            data: data,
+            options: assign({}, options, newOptions)
           };
-          return this._dispatch(context, () => req(context, ReqJSON.adapter))
-            .then(() => context.response);
+          return _this._dispatch(context, function () {
+            return req(context, ReqJSON.adapter);
+          }).then(function () {
+            return context.response;
+          });
         };
       });
       return fns;
-    }
+    };
 
-    use(fn) {
+    ReqJSON.prototype.use = function use(fn) {
       if (!isFunction(fn)) {
         throw new TypeError('Middleware must be a function');
       }
       this.middlewares.push(fn);
-    }
+    };
 
-    _dispatch(context, next) {
+    ReqJSON.prototype._dispatch = function _dispatch(context, next) {
       // last called middleware #
-      const { middlewares } = this;
-      let index = -1;
+      var middlewares = this.middlewares;
+
+      var index = -1;
 
       function dispatch(i) {
         if (i <= index) {
           return Promise.reject(new Error('next() called multiple times'));
         }
         index = i;
-        let fn = middlewares[i];
+        var fn = middlewares[i];
         if (i === middlewares.length) {
           fn = next;
         }
         try {
-          return Promise.resolve(fn(context, () => dispatch(i + 1)));
+          return Promise.resolve(fn(context, function () {
+            return dispatch(i + 1);
+          }));
         } catch (err) {
           return Promise.reject(err);
         }
       }
 
       return dispatch(0);
-    }
-  }
+    };
 
-  function wx$1(context, resolve, reject) {
-    const url = context.url.replace(/\?.*/, '');
+    return ReqJSON;
+  }();
+
+  function wx$1 (context, resolve, reject) {
+    var url = context.url.replace(/\?.*/, '');
     wx.request({
-      url,
+      url: url,
       data: context.data,
       header: context.header,
       method: context.method,
-      success(res) {
+      success: function success(res) {
         context.headers = context.header = res.header;
         context.status = res.statusCode;
         resolve(context.response = res.data);
       },
-      fail(res) {
+      fail: function fail(res) {
         context.status = res.statusCode;
         context.response = res.errMsg;
         reject(new Error(context.response = res.errMsg));

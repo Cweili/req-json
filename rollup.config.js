@@ -38,11 +38,17 @@ export default [
     input: 'wx.js',
     output: [
       {
+        file: 'dist/req-json.wx.esm.js',
+        format: 'es',
+        banner,
+      },
+      {
         name: 'ReqJSON',
         file: 'dist/req-json.wx.js',
         format: 'umd',
         banner,
       },
     ],
+    plugins,
   },
 ];
