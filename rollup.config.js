@@ -38,14 +38,13 @@ export default [
     input: 'wx.js',
     output: [
       {
-        file: 'dist/req-json.wx.esm.js',
-        format: 'es',
+        file: 'dist/req-json.wx.js',
+        format: 'cjs',
         banner,
       },
       {
-        name: 'ReqJSON',
-        file: 'dist/req-json.wx.js',
-        format: 'umd',
+        file: 'dist/req-json.wx.esm.js',
+        format: 'es',
         banner,
       },
     ],
