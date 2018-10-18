@@ -33,12 +33,12 @@ CommonJS for Webpack 1 or Browserify
 const ReqJSON = require('req-json');
 ```
 
-### CDN
+### Browser
 
 Direct `<script>` include
 
 ```html
-<script src="https://unpkg.com/req-json@^2/dist/req-json.js"></script>
+<script src="https://unpkg.com/req-json@^2"></script>
 ```
 
 ### Wechat mini program (weapp)
