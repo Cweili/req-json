@@ -1,5 +1,7 @@
 # req-json
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/Cweili/req-json.svg)](https://greenkeeper.io/)
+
 [![npm][npm-version]][npm]
 [![npm][npm-size]][npm]
 [![npm][npm-downloads]][npm]
