@@ -1,20 +1,11 @@
 {
   "presets": [
     [
-      "env", {
-        "targets": {
-          "browsers": [
-            "last 3 versions",
-            "Android >= 4",
-            "iOS >= 6",
-            "ie >= 9",
-            "> 1%"
-          ]
-        },
+      "@babel/preset-env", {
         "loose": true,
         "modules": false,
         "exclude": [
-          "transform-es2015-typeof-symbol"
+          "transform-typeof-symbol"
         ]
       }
     ]
