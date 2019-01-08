@@ -38,7 +38,7 @@ const ReqJSON = require('req-json');
 Direct `<script>` include
 
 ```html
-<script src="https://unpkg.com/req-json@^2"></script>
+<script src="https://cdn.jsdelivr.net/npm/req-json@2"></script>
 ```
 
 ### Wechat mini program (weapp)
@@ -47,7 +47,7 @@ Direct `<script>` include
 const ReqJSON = require('req-json/dist/req-json.wx');
 ```
 
-or just [download](https://unpkg.com/req-json@^2/dist/req-json.wx.js) and copy to your project.
+or just [download](https://cdn.jsdelivr.net/npm/req-json@2/dist/req-json.wx.js) and copy to your project.
 
 ## Basic Usage
 
