@@ -34,7 +34,7 @@
   "jsdelivr": "dist/req-json.js",
   "sideEffects": false,
   "scripts": {
-    "prebuild": "eslint --fix *.js lib/*.js",
+    "prebuild": "eslint --fix *.js lib/*.js test/*.js",
     "build": "rollup -c",
     "test": "jest test --collectCoverage --coverageDirectory ./coverage/"
   },
