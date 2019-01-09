@@ -4,22 +4,21 @@
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
-  (global.ReqJSON = factory());
-}(this, (function () { 'use strict';
+  (global = global || self, global.ReqJSON = factory());
+}(this, function () { 'use strict';
 
   var encode = encodeURIComponent;
-
   function isObject(value) {
     var type = typeof value;
     return value != null && (type === 'object' || type === 'function');
   }
-
   function isFunction(value) {
     if (!isObject(value)) {
       return false;
-    }
-    // The use of `Object#toString` avoids issues with the `typeof` operator
+    } // The use of `Object#toString` avoids issues with the `typeof` operator
     // in Safari 9 which returns 'object' for typed arrays and other constructors.
+
+
     var tag = Object.prototype.toString.call(value);
     var asyncTag = '[object AsyncFunction]';
     var funcTag = '[object Function]';
@@ -27,15 +26,13 @@
     var proxyTag = '[object Proxy]';
     return tag === funcTag || tag === genTag || tag === asyncTag || tag === proxyTag;
   }
-
   function each(collection, handler) {
     return collection && (Array.isArray(collection) ? collection.forEach(handler) : Object.keys(collection).forEach(function (key) {
       return handler(collection[key], key);
     }));
   }
-
   function assign(target) {
-    for (var _len = arguments.length, sources = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    for (var _len = arguments.length, sources = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
       sources[_key - 1] = arguments[_key];
     }
 
@@ -44,22 +41,17 @@
         target[key] = value;
       });
     });
-
     return target;
   }
-
   function omit(obj, attrs) {
     var result = {};
-
     each(obj, function (value, key) {
       if (attrs.indexOf(key) < 0) {
         result[key] = value;
       }
     });
-
     return result;
   }
-
   function parseJson(json) {
     try {
       return JSON.parse(json);
@@ -67,13 +59,11 @@
       return json;
     }
   }
-
   function transformQuery(args) {
     return Object.keys(args).sort().map(function (key) {
-      return key + '=' + encode(args[key]);
+      return key + "=" + encode(args[key]);
     }).join('&');
   }
-
   function fillUrl(method, path, data) {
     var pattern = /\/:(\w+)/g;
     var variables = [];
@@ -81,34 +71,34 @@
     var result = path.replace(pattern, function ($0, $1) {
       variables.push($1);
       var value = isDataObject ? data[$1] : data;
-      return value != null ? '/' + encode(value) : '';
+      return value != null ? "/" + encode(value) : '';
     });
+
     if (isDataObject && !/POST|PUT/.test(method)) {
       var query = transformQuery(omit(data, variables));
+
       if (query) {
-        result += '?' + query;
+        result += "?" + query;
       }
     }
+
     return result;
   }
-
-  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
   var methods = ['get', 'post', 'put', 'delete'];
 
   function req(context, adapter) {
     return new Promise(function (resolve, reject) {
       var options = context.options;
-
       context.header = context.headers = assign({}, options.header, options.headers, context.header, context.headers);
       adapter(context, resolve, reject);
     });
   }
 
-  var ReqJSON = function () {
+  var ReqJSON =
+  /*#__PURE__*/
+  function () {
     function ReqJSON() {
-      _classCallCheck(this, ReqJSON);
-
       this.middlewares = [];
     }
 
@@ -116,7 +106,9 @@
       ReqJSON.adapter = adapter;
     };
 
-    ReqJSON.prototype.resource = function resource(path, options) {
+    var _proto = ReqJSON.prototype;
+
+    _proto.resource = function resource(path, options) {
       var _this = this;
 
       var fns = {};
@@ -141,28 +133,31 @@
       return fns;
     };
 
-    ReqJSON.prototype.use = function use(fn) {
+    _proto.use = function use(fn) {
       if (!isFunction(fn)) {
         throw new TypeError('Middleware must be a function');
       }
+
       this.middlewares.push(fn);
     };
 
-    ReqJSON.prototype._dispatch = function _dispatch(context, next) {
+    _proto._dispatch = function _dispatch(context, next) {
       // last called middleware #
       var middlewares = this.middlewares;
-
       var index = -1;
 
       function dispatch(i) {
         if (i <= index) {
           return Promise.reject(new Error('next() called multiple times'));
         }
+
         index = i;
         var fn = middlewares[i];
+
         if (i === middlewares.length) {
           fn = next;
         }
+
         try {
           return Promise.resolve(fn(context, function () {
             return dispatch(i + 1);
@@ -180,12 +175,15 @@
 
   function parseResponseHeaders(headerStr) {
     var headers = {};
+
     if (!headerStr) {
       return headers;
     }
-    var headerPairs = headerStr.split('\r\n');
+
+    var headerPairs = headerStr.split("\r\n");
     each(headerPairs, function (headerPair) {
-      var index = headerPair.indexOf(': ');
+      var index = headerPair.indexOf(": ");
+
       if (index > 0) {
         var key = headerPair.substring(0, index);
         var val = headerPair.substring(index + 2);
@@ -200,10 +198,10 @@
     var method = context.method,
         url = context.url,
         headers = context.headers;
-
     var data = context.data;
     context.xhr = xhr;
     xhr.onerror = reject;
+
     xhr.onreadystatechange = function () {
       if (xhr.readyState == 4) {
         context.status = xhr.status;
@@ -211,10 +209,12 @@
         resolve(context.response = parseJson(xhr.responseText));
       }
     };
+
     xhr.open(method, url, true);
     each(headers, function (value, key) {
       xhr.setRequestHeader(key, value);
     });
+
     if (data) {
       if (/POST|PUT/.test(method)) {
         if (!headers['Content-Type']) {
@@ -225,6 +225,7 @@
         data = undefined;
       }
     }
+
     xhr.send(data);
   }
 
@@ -232,4 +233,4 @@
 
   return ReqJSON;
 
-})));
+}));
