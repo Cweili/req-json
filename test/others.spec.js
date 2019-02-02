@@ -1,4 +1,4 @@
-import ReqJSON from '../dist/req-json.cjs';
+import ReqJSON from '..';
 
 describe('req-json others', () => {
   it('should throw error when call as a function', () => {

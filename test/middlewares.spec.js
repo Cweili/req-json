@@ -1,5 +1,5 @@
 import mock from 'xhr-mock';
-import ReqJSON from '../dist/req-json.cjs';
+import ReqJSON from '..';
 
 describe('req-json methods', () => {
   beforeEach(() => mock.setup());
