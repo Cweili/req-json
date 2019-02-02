@@ -256,7 +256,7 @@ reqJSON.use((context, next) => {
 [github-issues]: https://img.shields.io/github/issues/Cweili/req-json.svg
 
 [travis]: https://travis-ci.org/Cweili/req-json
-[travis-build]: https://img.shields.io/travis/Cweili/req-json.svg?branch=master
+[travis-build]: https://travis-ci.org/Cweili/req-json.svg?branch=master
 
 [codecov]: https://codecov.io/gh/Cweili/req-json
 [codecov-svg]: https://img.shields.io/codecov/c/github/Cweili/req-json.svg
