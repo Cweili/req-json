@@ -1,14 +1,14 @@
 # req-json
 
-[![npm][npm-version]][npm]
-[![npm][npm-size]][npm]
-[![npm][npm-downloads]][npm]
-[![npm][npm-license]][npm]
+[![npm][badge-version]][npm]
+[![bundle size][badge-size]][bundlephobia]
+[![npm downloads][badge-downloads]][npm]
+[![license][badge-license]][license]
 
 
-[![github][github-issues]][github]
-[![travis][travis-build]][travis]
-[![codecov][codecov-svg]][codecov]
+[![github][badge-issues]][github]
+[![travis][badge-build]][travis]
+[![coverage][badge-coverage]][codecov]
 
 
 Promise based simple HTTP/HTTPS client for browser to request JSON or string for RESTful apis, with koa-like middleware support.
@@ -246,17 +246,21 @@ reqJSON.use((context, next) => {
 });
 ```
 
+[badge-version]: https://img.shields.io/npm/v/req-json.svg
+[badge-downloads]: https://img.shields.io/npm/dt/req-json.svg
 [npm]: https://www.npmjs.com/package/req-json
-[npm-version]: https://img.shields.io/npm/v/req-json.svg
-[npm-size]: https://img.shields.io/bundlephobia/minzip/req-json.svg
-[npm-downloads]: https://img.shields.io/npm/dt/req-json.svg
-[npm-license]: https://img.shields.io/npm/l/req-json.svg
 
+[badge-size]: https://img.shields.io/bundlephobia/minzip/req-json.svg
+[bundlephobia]: https://bundlephobia.com/result?p=req-json
+
+[badge-license]: https://img.shields.io/npm/l/req-json.svg
+[license]: https://github.com/Cweili/req-json/blob/master/LICENSE
+
+[badge-issues]: https://img.shields.io/github/issues/Cweili/req-json.svg
 [github]: https://github.com/Cweili/req-json
-[github-issues]: https://img.shields.io/github/issues/Cweili/req-json.svg
 
+[badge-build]: https://travis-ci.org/Cweili/req-json.svg?branch=master
 [travis]: https://travis-ci.org/Cweili/req-json
-[travis-build]: https://travis-ci.org/Cweili/req-json.svg?branch=master
 
+[badge-coverage]: https://img.shields.io/codecov/c/github/Cweili/req-json.svg
 [codecov]: https://codecov.io/gh/Cweili/req-json
-[codecov-svg]: https://img.shields.io/codecov/c/github/Cweili/req-json.svg
