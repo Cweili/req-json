@@ -4,6 +4,8 @@
       "@babel/preset-env", {
         "loose": true,
         "exclude": [
+          "transform-async-to-generator",
+          "transform-regenerator",
           "transform-typeof-symbol"
         ]
       }
