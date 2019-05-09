@@ -111,4 +111,17 @@ describe('req-json middlewares', () => {
     });
     expect(data).toBeDefined();
   });
+
+  it('should get data by shorthand methods', async () => {
+    mock.get('/api/item/1', {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    });
+
+    const data = await reqJSON.get('/api/item/:id', 1);
+    expect(data).toEqual(body);
+  });
 });

@@ -52,7 +52,39 @@ or just [download](https://cdn.jsdelivr.net/npm/req-json@2/dist/req-json.wx.js) 
 ## Basic Usage
 
 ```js
+import ReqJSON from 'req-json';
+
 const reqJSON = new ReqJSON();
+
+reqJSON.get('/api/item/:id', { id: 1 })
+  .then((item) => {});
+```
+
+## Shorthand methods
+
+```js
+async getItem(id) {
+  let item;
+  try {
+    item = await reqJSON.get('/api/item/:id', { id });
+  } catch (err) {
+    console.error(err);
+  }
+  return item;
+}
+
+async updateItem(item) {
+  try {
+    await reqJSON.post('/api/item/:id', item);
+  } catch (err) {
+    console.error(err);
+  }
+}
+```
+
+## RESTful API
+
+```js
 const resource = reqJSON.resource('/api/item/:id');
 
 async getItem(id) {
@@ -79,7 +111,6 @@ async updateItem(item) {
 Supports `GET` `POST` `PUT` `DELETE` methods.
 
 ```js
-const reqJSON = new ReqJSON();
 const resource = reqJSON.resource('/api/item/:id');
 
 async request() {
@@ -148,8 +179,6 @@ Supports two diffrent kinds of functions as middleware:
 ### Async function ([Can I use](http://caniuse.com/#feat=async-functions))
 
 ```js
-const reqJSON = new ReqJSON();
-
 reqJSON.use(async(context, next) => {
   const start = Date.now();
   await next();
@@ -161,8 +190,6 @@ reqJSON.use(async(context, next) => {
 ### Common function
 
 ```js
-const reqJSON = new ReqJSON();
-
 reqJSON.use((context, next) => {
   const start = Date.now();
   return next()
