@@ -96,6 +96,8 @@ declare namespace ReqJSON {
 declare class ReqJSON {
   /**
    * Create a new ReqJSON instance
+   * 
+   * ReqJSON is a Promise based simple HTTP/HTTPS client for browser to request JSON or string for RESTful apis, with koa-like middleware support.
    */
   constructor();
 
