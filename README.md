@@ -231,7 +231,7 @@ data: any
 options: object
     
 /**
- * The HTTP status of the response. Only available when the request   completes.
+ * The HTTP status of the response. Only available when the request completes.
  */
 status?: number
     
@@ -241,7 +241,7 @@ status?: number
 response?: string | object
 
 /**
- * The request headers before the request is sent, the response   headers when the request completes.
+ * The request headers before the request is sent, the response headers when the request completes.
  */
 headers: object
     
