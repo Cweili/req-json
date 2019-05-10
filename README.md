@@ -204,16 +204,57 @@ reqJSON.use((context, next) => {
 
 Context contains these attributes:
 
-* `path`
-* `method`
-* `url`
-* `data`
-* `options`
-* `status` (response only)
-* `response` (response only)
-* `headers` (setting for request, getting for response)
-* `header` (alias to `headers`)
-* `xhr`
+```js
+/**
+ * The path to use for the request, with parameters defined.
+ */
+path: string
+    
+/**
+ * The HTTP method to use for the request (e.g. "POST", "GET", "PUT",   "DELETE").
+ */
+method: string
+    
+/**
+ * The URL to which the request is sent.
+ */
+url: string
+    
+/**
+ * The data to be sent.
+ */
+data: any
+    
+/**
+ * The options to use for the request.
+ */
+options: object
+    
+/**
+ * The HTTP status of the response. Only available when the request   completes.
+ */
+status?: number
+    
+/**
+ * The parsed response. Only available when the request completes.
+ */
+response?: string | object
+
+/**
+ * The request headers before the request is sent, the response   headers when the request completes.
+ */
+headers: object
+    
+/**
+ * Alias to `headers`
+ */
+header: object
+    
+/**
+ * The original XMLHttpRequest object.
+ */
+xhr: XMLHttpRequest
+```
 
 ### Reject when status 4xx or 5xx
 
@@ -235,7 +276,7 @@ reqJSON.use((context, next) => {
   return next()
     .then(() => {
       if (context.status >= 400) {
-        throw new Error(context.response);
+throw new Error(context.response);
       }
     });
 });
