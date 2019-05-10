@@ -204,14 +204,14 @@ reqJSON.use((context, next) => {
 
 Context contains these attributes:
 
-```js
+```ts
 /**
  * The path to use for the request, with parameters defined.
  */
 path: string
     
 /**
- * The HTTP method to use for the request (e.g. "POST", "GET", "PUT",   "DELETE").
+ * The HTTP method to use for the request (e.g. "POST", "GET", "PUT", "DELETE").
  */
 method: string
     
