@@ -6,7 +6,7 @@ declare namespace ReqJSON {
      * @param data The data to be sent.
      * @param options The options to use for each requests to the resource.
      */
-    (data?: any, options?: object): Promise<string | object>
+    (data?: any, options?: object): Promise<object | string>
   }
 
   interface ShortHandMethod {
@@ -17,7 +17,7 @@ declare namespace ReqJSON {
      * @param data The data to be sent.
      * @param options The options to use for each requests to the resource.
      */
-    (path?: string, data?: any, options?: object): Promise<string | object>
+    (path?: string, data?: any, options?: object): Promise<object | string>
   }
 
   interface RESTfulMethods {
@@ -64,7 +64,7 @@ declare namespace ReqJSON {
     /**
      * The parsed response. Only available when the request completes.
      */
-    response?: string | object
+    response?: object | string
 
     /**
      * The request headers before the request is sent, the response headers when the request completes.
