@@ -1,5 +1,5 @@
 import mock from 'xhr-mock';
-import ReqJSON from '..';
+import ReqJSON from '../index';
 
 describe('req-json middlewares', () => {
   const reqJSON = new ReqJSON();
