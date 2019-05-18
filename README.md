@@ -7,8 +7,8 @@
 
 
 [![github][badge-issues]][github]
-[![travis][badge-build]][travis]
-[![coverage][badge-coverage]][codecov]
+[![build][badge-build]][travis]
+[![coverage][badge-coverage]][coveralls]
 
 
 Promise based simple HTTP/HTTPS client for browser to request JSON or string for RESTful apis, with koa-like middleware support.
@@ -327,8 +327,8 @@ reqJSON.use((context, next) => {
 [badge-issues]: https://img.shields.io/github/issues/Cweili/req-json.svg
 [github]: https://github.com/Cweili/req-json
 
-[badge-build]: https://travis-ci.org/Cweili/req-json.svg?branch=master
+[badge-build]: https://img.shields.io/travis/Cweili/req-json/master.svg
 [travis]: https://travis-ci.org/Cweili/req-json
 
-[badge-coverage]: https://img.shields.io/codecov/c/github/Cweili/req-json/master.svg
-[codecov]: https://codecov.io/gh/Cweili/req-json
+[badge-coverage]: https://img.shields.io/coveralls/github/Cweili/req-json/master.svg
+[coveralls]: https://coveralls.io/github/Cweili/req-json?branch=master
