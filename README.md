@@ -330,5 +330,5 @@ reqJSON.use((context, next) => {
 [badge-build]: https://travis-ci.org/Cweili/req-json.svg?branch=master
 [travis]: https://travis-ci.org/Cweili/req-json
 
-[badge-coverage]: https://img.shields.io/codecov/c/github/Cweili/req-json.svg
+[badge-coverage]: https://img.shields.io/codecov/c/github/Cweili/req-json/master.svg
 [codecov]: https://codecov.io/gh/Cweili/req-json

@@ -5,9 +5,9 @@
         "loose": true,
         "modules": false,
         "exclude": [
-          "transform-async-to-generator",
-          "transform-regenerator",
-          "transform-typeof-symbol"
+          "@babel/plugin-transform-async-to-generator",
+          "@babel/plugin-transform-regenerator",
+          "@babel/plugin-transform-typeof-symbol"
         ]
       }
     ]
