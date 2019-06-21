@@ -1,3 +1,16 @@
+## 2.2.1 (2019-06-21)
+
+* fix: set header in middleware not work for wechat mini app ([04e4428](https://github.com/Cweili/req-json/commit/04e4428))
+* docs: add homepage link ([34d30e0](https://github.com/Cweili/req-json/commit/34d30e0))
+* docs: fix typo ([dfb818f](https://github.com/Cweili/req-json/commit/dfb818f))
+* docs: fix typo ([61bb0b4](https://github.com/Cweili/req-json/commit/61bb0b4))
+* test: fix tests on source code ([18e26b0](https://github.com/Cweili/req-json/commit/18e26b0))
+* chore: move coverage report to coveralls ([aed8821](https://github.com/Cweili/req-json/commit/aed8821))
+* chore: upgrade babel ([c5c7a95](https://github.com/Cweili/req-json/commit/c5c7a95))
+* chore(package): update rollup-plugin-node-resolve to version 5.0.0 ([d03eee7](https://github.com/Cweili/req-json/commit/d03eee7))
+
+
+
 ## 2.2.0 (2019-05-10)
 
 * docs: add module description ([5296a6c](https://github.com/Cweili/req-json/commit/5296a6c))
