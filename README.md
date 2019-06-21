@@ -13,6 +13,8 @@
 
 Promise based simple HTTP/HTTPS client for browser to request JSON or string for RESTful apis, with koa-like middleware support.
 
+[Documents and examples](https://req-json.github.io/).
+
 ## Installation
 
 ### NPM
