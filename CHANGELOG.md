@@ -1,3 +1,11 @@
+## 2.3.0 (2019-07-03)
+
+* feat: option for timeout ([83246de](https://github.com/Cweili/req-json/commit/83246de))
+* feat: support instance options ([a461e4b](https://github.com/Cweili/req-json/commit/a461e4b))
+* chore(package): update eslint to version 6.0.0 ([48c3941](https://github.com/Cweili/req-json/commit/48c3941))
+
+
+
 ## 2.2.1 (2019-06-21)
 
 * fix: set header in middleware not work for wechat mini app ([04e4428](https://github.com/Cweili/req-json/commit/04e4428))
