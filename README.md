@@ -152,7 +152,7 @@ const options = {
 const reqJSON = new ReqJSON(options);
 ```
 
-Customized request headers for resource defination.
+### Set option for resource defination.
 
 ```js
 const options = {
@@ -172,7 +172,7 @@ async request() {
 }
 ```
 
-Or for single request.
+### Set option for single request.
 
 ```js
 async request() {
