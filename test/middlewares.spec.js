@@ -1,7 +1,7 @@
 import mock from 'xhr-mock';
 import ReqJSON from '../index';
 
-describe('req-json methods', () => {
+describe('req-json middlewares', () => {
   beforeEach(() => mock.setup());
 
   afterEach(() => mock.teardown());

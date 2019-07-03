@@ -1,7 +1,7 @@
 import mock from 'xhr-mock';
 import ReqJSON from '../index';
 
-describe('req-json middlewares', () => {
+describe('req-json methods', () => {
   const reqJSON = new ReqJSON();
   const resource = reqJSON.resource('/api/item/:id');
   const body = {
@@ -123,5 +123,19 @@ describe('req-json middlewares', () => {
 
     const data = await reqJSON.get('/api/item/:id', 1);
     expect(data).toEqual(body);
+  });
+
+  it('should throw error when timeout', async () => {
+    mock.get('/api/item/1', (req, res) => new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(res.status(200).body(JSON.stringify(body)));
+      }, 1000);
+    }));
+
+    try {
+      await reqJSON.get('/api/item/:id', 1, { timeout: 1 });
+    } catch (err) {
+      expect(err).toBeTruthy();
+    }
   });
 });
