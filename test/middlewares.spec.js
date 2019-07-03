@@ -1,5 +1,6 @@
 import mock from 'xhr-mock';
 import ReqJSON from '../index';
+import { each } from '../lib/utils';
 
 describe('req-json middlewares', () => {
   beforeEach(() => mock.setup());
@@ -87,6 +88,49 @@ describe('req-json middlewares', () => {
       expect(middleware1).toHaveBeenCalled();
       expect(middleware2).toHaveBeenCalledTimes(0);
     }
+  });
+
+  it('should support options extend', async () => {
+    each([1, 2, 3], id => mock.get(`/api/item/${id}`, (req, res) => {
+      expect(req.header('X-Test')).toBe(id);
+      return res.status(204);
+    }));
+
+    const reqJSON1 = new ReqJSON({
+      headers: {
+        'X-Test': 1,
+      },
+    });
+    const resource1 = reqJSON1.resource('/api/item/:id');
+    await resource1.get(1);
+
+    const reqJSON2 = new ReqJSON({
+      headers: {
+        'X-Test': 1,
+      },
+    });
+    const resource2 = reqJSON2.resource('/api/item/:id', {
+      headers: {
+        'X-Test': 2,
+      },
+    });
+    await resource2.get(2);
+
+    const reqJSON3 = new ReqJSON({
+      headers: {
+        'X-Test': 1,
+      },
+    });
+    const resource3 = reqJSON3.resource('/api/item/:id', {
+      headers: {
+        'X-Test': 2,
+      },
+    });
+    await resource3.get(3, {
+      headers: {
+        'X-Test': 3,
+      },
+    });
   });
 
   it('should throw error when middleware is not a function', async () => {

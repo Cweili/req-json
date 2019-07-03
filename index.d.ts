@@ -85,7 +85,7 @@ declare namespace ReqJSON {
   interface Middleware extends Function {
     /**
      * ReqJSON middleware, similar to Koa.js middleware.
-     * 
+     *
      * @param context ReqJSON request context
      * @param next ReqJSON Middleware
      */
@@ -96,14 +96,16 @@ declare namespace ReqJSON {
 declare class ReqJSON {
   /**
    * Create a new ReqJSON instance
-   * 
+   *
    * ReqJSON is a Promise based simple HTTP/HTTPS client for browser to request JSON or string for RESTful apis, with koa-like middleware support.
+   *
+   * @param options The options to use for ReqJSON instance.
    */
-  constructor();
+  constructor(options?: object);
 
   /**
    * Define a RESTful resource.
-   * 
+   *
    * @param path The path to use for the request, with parameters defined.
    * @param options The options to use for each requests to the resource.
    */
@@ -114,7 +116,7 @@ declare class ReqJSON {
 
   /**
    * Register a ReqJSON middleware
-   * 
+   *
    * @param middleware A ReqJSON middleware
    */
   use(middleware: ReqJSON.Middleware): this

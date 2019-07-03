@@ -135,12 +135,22 @@ async request() {
 
 ## Options
 
-You can set option for resource defination or for single request.
+You can set option for ReqJSON instance / resource defination / each single request.
 
 * `headers`: Customized request headers
 * `timeout`: Set request timeout
 
-### Set request headers
+### Set option for ReqJSON instance
+
+```js
+const options = {
+  headers: {
+    Authorization: 'abc'
+  },
+  timeout: 1000
+};
+const reqJSON = new ReqJSON(options);
+```
 
 Customized request headers for resource defination.
 
@@ -148,7 +158,8 @@ Customized request headers for resource defination.
 const options = {
   headers: {
     Authorization: 'abc'
-  }
+  },
+  timeout: 1000
 };
 const resource = reqJSON.resource('/api/item/:id', options);
 
@@ -168,7 +179,8 @@ async request() {
   const options = {
     headers: {
       Authorization: 'abc'
-    }
+    },
+    timeout: 1000
   };
   try {
     await resource.get({ id: 1 }, options);
@@ -176,18 +188,6 @@ async request() {
     console.error(err);
   }
 }
-```
-
-### Set timeout
-
-```js
-const resource = reqJSON.resource('/api/item/:id', {
-  timeout: 1000
-});
-
-resource.get({ id: 1 }, {
-  timeout: 1000
-});
 ```
 
 ## Middlewares
