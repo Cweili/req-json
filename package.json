@@ -48,7 +48,7 @@
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-import-resolver-node": "^0.3.2",
     "eslint-plugin-import": "^2.13.0",
-    "eslint-plugin-jest": "^22.15.2",
+    "eslint-plugin-jest": "^23.0.0",
     "jest": "^24.5.0",
     "rollup": "^1.19.3",
     "rollup-plugin-babel": "^4.0.3",
