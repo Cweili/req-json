@@ -83,6 +83,7 @@ describe('req-json middlewares', () => {
         id: 1,
       });
     } catch (err) {
+      // eslint-disable-next-line jest/no-try-expect
       expect(err.message).toEqual('error');
     } finally {
       expect(middleware1).toHaveBeenCalled();
@@ -91,7 +92,7 @@ describe('req-json middlewares', () => {
   });
 
   it('should support options extend', async () => {
-    each([1, 2, 3], id => mock.get(`/api/item/${id}`, (req, res) => {
+    each([1, 2, 3], (id) => mock.get(`/api/item/${id}`, (req, res) => {
       expect(req.header('X-Test')).toBe(id);
       return res.status(204);
     }));
@@ -136,11 +137,7 @@ describe('req-json middlewares', () => {
   it('should throw error when middleware is not a function', async () => {
     const reqJSON = new ReqJSON();
 
-    try {
-      reqJSON.use(1);
-    } catch (err) {
-      expect(err).toBeTruthy();
-    }
+    expect(() => reqJSON.use(1)).toThrow();
   });
 
   it('should throw error when next call multiple times', async () => {
@@ -164,12 +161,8 @@ describe('req-json middlewares', () => {
       body: JSON.stringify(body),
     });
 
-    try {
-      await resource.get({
-        id: 1,
-      });
-    } catch (err) {
-      expect(err).toBeTruthy();
-    }
+    await expect(resource.get({
+      id: 1,
+    })).rejects.toThrow();
   });
 });
