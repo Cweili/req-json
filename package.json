@@ -32,6 +32,7 @@
   "module": "dist/req-json.esm.js",
   "unpkg": "dist/req-json.js",
   "jsdelivr": "dist/req-json.js",
+  "types": "index.d.ts",
   "sideEffects": false,
   "scripts": {
     "postbuild": "eslint --fix *.js lib test",
