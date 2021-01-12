@@ -1,6 +1,6 @@
 {
   "name": "req-json",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "Promise based simple HTTP/HTTPS client for browser to request JSON or string for RESTful apis, with koa-like middleware support.",
   "keywords": [
     "promise",
@@ -38,7 +38,8 @@
     "postbuild": "eslint --fix *.js lib test",
     "build": "rollup -c",
     "test": "jest test --coverage",
-    "changelog": "conventional-changelog -p req-json -i CHANGELOG.md -s"
+    "changelog": "conventional-changelog -p req-json -i CHANGELOG.md -s",
+    "prepare": "npm run build"
   },
   "devDependencies": {
     "@babel/core": "^7.4.4",

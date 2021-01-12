@@ -1,3 +1,14 @@
+## 2.3.1 (2021-01-12)
+
+* test: fix timeout tests ([17d0544](https://github.com/Cweili/req-json/commit/17d0544))
+* chore: define types file in package.json ([a75fab8](https://github.com/Cweili/req-json/commit/a75fab8))
+* chore(ci): migrate to travis-ci.com ([f49ced5](https://github.com/Cweili/req-json/commit/f49ced5))
+* fix: types defination ([d915218](https://github.com/Cweili/req-json/commit/d915218))
+* refactor: apply eslint rules ([57fe532](https://github.com/Cweili/req-json/commit/57fe532))
+* docs: fix option titles ([3503889](https://github.com/Cweili/req-json/commit/3503889))
+
+
+
 ## 2.3.0 (2019-07-03)
 
 * feat: option for timeout ([83246de](https://github.com/Cweili/req-json/commit/83246de))
