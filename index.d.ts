@@ -17,7 +17,7 @@ declare namespace ReqJSON {
      * @param data The data to be sent.
      * @param options The options to use for each requests to the resource.
      */
-    (path?: string, data?: any, options?: object): Promise<object | string>
+    (path: string, data?: any, options?: object): Promise<object | string>
   }
 
   interface RESTfulMethods {
@@ -111,7 +111,7 @@ declare class ReqJSON {
    */
   resource(
     path: string,
-    options: object
+    options?: object
   ): ReqJSON.RESTfulMethods
 
   /**
