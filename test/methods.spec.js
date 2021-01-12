@@ -132,6 +132,6 @@ describe('req-json methods', () => {
       }, 1000);
     }));
 
-    await expect(reqJSON.get('/api/item/:id', 1, { timeout: 1 })).rejects.toThrow();
+    (await expect(reqJSON.get('/api/item/:id', 1, { timeout: 1 }))).rejects.toThrow();
   });
 });
