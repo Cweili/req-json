@@ -126,12 +126,8 @@ describe('req-json methods', () => {
   });
 
   it('should throw error when timeout', async () => {
-    mock.get('/api/item/1', (req, res) => new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(res.status(200).body(JSON.stringify(body)));
-      }, 1000);
-    }));
+    mock.get('/api/item/1', () => new Promise(() => {}));
 
-    (await expect(reqJSON.get('/api/item/:id', 1, { timeout: 1 }))).rejects.toThrow();
+    await expect(reqJSON.get('/api/item/:id', 1, { timeout: 1 })).rejects.toBeTruthy();
   });
 });

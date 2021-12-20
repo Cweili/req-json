@@ -55,6 +55,6 @@
     "rollup": "^2.7.3",
     "rollup-plugin-babel": "^4.0.3",
     "rollup-plugin-node-resolve": "^5.0.0",
-    "xhr-mock": "^2.3.1"
+    "xhr-mock": "^2.5.1"
   }
 }
