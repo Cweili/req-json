@@ -78,17 +78,12 @@ describe('req-json middlewares', () => {
       body: 'Permission denied',
     });
 
-    try {
-      await resource.get({
-        id: 1,
-      });
-    } catch (err) {
-      // eslint-disable-next-line jest/no-try-expect
-      expect(err.message).toEqual('error');
-    } finally {
-      expect(middleware1).toHaveBeenCalled();
-      expect(middleware2).toHaveBeenCalledTimes(0);
-    }
+    await expect(resource.get({
+      id: 1,
+    })).rejects.toThrow();
+
+    expect(middleware1).toHaveBeenCalled();
+    expect(middleware2).toHaveBeenCalledTimes(0);
   });
 
   it('should support options extend', async () => {
