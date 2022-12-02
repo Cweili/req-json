@@ -23,16 +23,8 @@ Promise based simple HTTP/HTTPS client for browser to request JSON or string for
 npm install req-json --save
 ```
 
-ES modules for Webpack 2+ or Rollup
-
 ```js
 import ReqJSON from 'req-json';
-```
-
-CommonJS for Webpack 1 or Browserify
-
-```js
-const ReqJSON = require('req-json');
 ```
 
 ### Browser
@@ -230,47 +222,47 @@ Context contains these attributes:
  * The path to use for the request, with parameters defined.
  */
 path: string
-    
+
 /**
  * The HTTP method to use for the request (e.g. "POST", "GET", "PUT", "DELETE").
  */
-method: string
-    
+method: 'POST' | 'GET' | 'PUT' | 'DELETE'
+
 /**
  * The URL to which the request is sent.
  */
 url: string
-    
+
 /**
  * The data to be sent.
  */
 data: any
-    
+
 /**
  * The options to use for the request.
  */
 options: object
-    
+
 /**
  * The HTTP status of the response. Only available when the request completes.
  */
 status?: number
-    
+
 /**
  * The parsed response. Only available when the request completes.
  */
-response?: string | object
+response?: any
 
 /**
  * The request headers before the request is sent, the response headers when the request completes.
  */
-headers: object
-    
+headers: Headers
+
 /**
  * Alias to `headers`
  */
-header: object
-    
+header: Headers
+
 /**
  * The original XMLHttpRequest object.
  */

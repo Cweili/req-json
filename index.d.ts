@@ -6,7 +6,7 @@ declare namespace ReqJSON {
      * @param data The data to be sent.
      * @param options The options to use for each requests to the resource.
      */
-    (data?: any, options?: object): Promise<object | string>
+     <ResponseBody>(data?: any, options?: object): Promise<ResponseBody>
   }
 
   interface ShortHandMethod {
@@ -17,7 +17,7 @@ declare namespace ReqJSON {
      * @param data The data to be sent.
      * @param options The options to use for each requests to the resource.
      */
-    (path: string, data?: any, options?: object): Promise<object | string>
+     <ResponseBody>(path: string, data?: any, options?: object): Promise<ResponseBody>
   }
 
   interface RESTfulMethods {
@@ -25,6 +25,10 @@ declare namespace ReqJSON {
     post: HTTPMethod
     put: HTTPMethod
     delete: HTTPMethod
+  }
+
+  interface Headers {
+    [k: string]: string
   }
 
   /**
@@ -39,7 +43,7 @@ declare namespace ReqJSON {
     /**
      * The HTTP method to use for the request (e.g. "POST", "GET", "PUT", "DELETE").
      */
-    method: string
+    method: 'POST' | 'GET' | 'PUT' | 'DELETE'
 
     /**
      * The URL to which the request is sent.
@@ -64,17 +68,17 @@ declare namespace ReqJSON {
     /**
      * The parsed response. Only available when the request completes.
      */
-    response?: object | string
+    response?: any
 
     /**
      * The request headers before the request is sent, the response headers when the request completes.
      */
-    headers: object
+    headers: Headers
 
     /**
      * Alias to `headers`
      */
-    header: object
+    header: Headers
 
     /**
      * The original XMLHttpRequest object.
@@ -93,6 +97,18 @@ declare namespace ReqJSON {
   }
 }
 
+interface ReqJSONOptions {
+  /**
+   * Customized request headers
+   */
+  headers: Headers
+
+  /**
+   * Set request timeout
+   */
+  timeout: number
+}
+
 declare class ReqJSON {
   /**
    * Create a new ReqJSON instance
@@ -101,7 +117,7 @@ declare class ReqJSON {
    *
    * @param options The options to use for ReqJSON instance.
    */
-  constructor(options?: object);
+  constructor(options?: ReqJSONOptions);
 
   /**
    * Define a RESTful resource.
@@ -111,7 +127,7 @@ declare class ReqJSON {
    */
   resource(
     path: string,
-    options?: object
+    options?: ReqJSONOptions,
   ): ReqJSON.RESTfulMethods
 
   /**
