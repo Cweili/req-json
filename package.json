@@ -45,7 +45,7 @@
     "@babel/core": "^7.4.4",
     "@babel/eslint-parser": "^7.16.3",
     "@babel/preset-env": "^7.4.4",
-    "conventional-changelog-cli": "^3.0.0",
+    "conventional-changelog-cli": "^4.0.0",
     "eslint": "^8.5.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-import-resolver-node": "^0.3.2",
